@@ -22,7 +22,7 @@ else:
         client = OpenAI(api_key=api_key)
     else:
         # Create an Grok client.
-        client = Groq(api_key=os.environ.get(api_key))
+        client = Groq(api_key=api_key)
         model = "rok-2-latest"
 
 
@@ -38,27 +38,33 @@ else:
         disabled=not uploaded_file,
     )
 
-    if uploaded_file and question:
+    # Add a submit button
+    if st.button("Submit"):
+        # Process the text when the button is clicked
+        if question:
+            if uploaded_file and question:
 
-        # Process the uploaded file and question.
-        document = uploaded_file.read().decode('utf-8-sig', 'ignore')
-        messages = [
-            {
-                "role": "system",
-                "content": "You are a Document Analyst, specialized in processing diverse document types. Your role is to provide short, clear summaries in visually structured formats. Use Markdown for formatting, focus on key information, and suggest where visual aids might help understanding."
-            },{
-                "role": "user",
-                "content": f"Here's a document: {document} \n\n---\n\n {question}",
-            }
-        ]
+                # Process the uploaded file and question.
+                document = uploaded_file.read().decode('utf-8-sig', 'ignore')
+                messages = [
+                    {
+                        "role": "system",
+                        "content": "You are a Document Analyst, specialized in processing diverse document types. Your role is to provide short, clear summaries in visually structured formats. Use Markdown for formatting, focus on key information, and suggest where visual aids might help understanding."
+                    },{
+                        "role": "user",
+                        "content": f"Here's a document: {document} \n\n---\n\n {question}",
+                    }
+                ]
 
-        # Generate an answer using the OpenAI API.
-        stream = client.chat.completions.create(
-            model=model,
-            messages=messages,
-            stream=True,
-            store=False,
-        )
+                # Generate an answer using the OpenAI API.
+                stream = client.chat.completions.create(
+                    model=model,
+                    messages=messages,
+                    stream=True,
+                    store=False,
+                )
 
-        # Stream the response to the app using `st.write_stream`.
-        st.write_stream(stream)
+                # Stream the response to the app using `st.write_stream`.
+                st.write_stream(stream)
+        else:
+            st.warning('Enter some text before submitting.', icon="⚠️")
