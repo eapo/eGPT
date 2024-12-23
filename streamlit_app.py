@@ -6,19 +6,18 @@ from groq import Groq
 st.title("📄 DoQ&A")
 st.write(
     "Upload a document and ask about it – GPT will answer!"
-    "Provide an [OpenAI](https://platform.openai.com/account/api-keys)/[Grok](https://x.ai/api) API key."
 )
 
 # Ask user for their OpenAI API key via `st.text_input`.
 # Alternatively, you can store the API key in `./.streamlit/secrets.toml` and access it
 # via `st.secrets`, see https://docs.streamlit.io/develop/concepts/connections/secrets-management
-api_key = st.text_input("OpenAI/Grok API Key", type="password")
+api_key = st.text_input("[OpenAI](https://platform.openai.com/account/api-keys)/[Grok](https://x.ai/api) API key.", type="password")
 if not api_key:
     st.info("Please add your OpenAI API key to continue.", icon="🗝️")
 else:
 
     if not api_key.startswith("xai"):
-        model = "gpt-3.5-turbo"
+        model = "gpt-4o-mini"
         # Create an OpenAI client.
         client = OpenAI(api_key=api_key)
     else:
@@ -45,6 +44,9 @@ else:
         document = uploaded_file.read().decode()
         messages = [
             {
+                "role": "system",
+                "content": "You are a Document Analyst, specialized in processing diverse document types. Your role is to provide short, clear summaries in visually structured formats. Use Markdown for formatting, focus on key information, and suggest where visual aids might help understanding."
+            },{
                 "role": "user",
                 "content": f"Here's a document: {document} \n\n---\n\n {question}",
             }
@@ -55,6 +57,7 @@ else:
             model=model,
             messages=messages,
             stream=True,
+            store=False,
         )
 
         # Stream the response to the app using `st.write_stream`.
