@@ -40,7 +40,7 @@ else:
         "Questions about the document:",
         value="Give me a short summary with ordered lists.",
         disabled=False,
-        height=3,
+        height=2*68,
     )
 
     # Add a submit button
