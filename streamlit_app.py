@@ -39,7 +39,8 @@ else:
     question = st.text_area(
         "Questions about the document:",
         value="Give me a short summary with ordered lists.",
-        disabled=not uploaded_file,
+        disabled=False,
+        height=3,
     )
 
     # Add a submit button
@@ -90,7 +91,6 @@ else:
                     model=model,
                     messages=messages,
                     stream=True,
-                    store=False,
                 )
 
                 # Stream the response to the app using `st.write_stream`.
