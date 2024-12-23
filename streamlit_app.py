@@ -2,7 +2,6 @@ import streamlit as st
 import requests
 from lxml import html
 from openai import OpenAI
-from groq import Groq
 
 # Show title and description.
 st.title("📄 DoQ&A")
@@ -19,13 +18,15 @@ if not api_key:
 else:
 
     if not api_key.startswith("xai"):
-        model = "gpt-4o-mini"
         # Create an OpenAI client.
         client = OpenAI(api_key=api_key)
+        model = "gpt-4o-mini"
     else:
-        # Create an Grok client.
-        client = Groq(api_key=api_key)
-        model = "rok-2-latest"
+        # Create a Grok client.
+        client = OpenAI(api_key=api_key,
+            base_url="https://api.x.ai/v1",
+        )
+        model = "grok-2-1212"
 
 
     # Let the user upload a file via `st.file_uploader`.
