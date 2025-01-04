@@ -1,8 +1,8 @@
-# 📄 Document question answering template
+# 📄 DoQ&A - processing documents/webpages professionally with less footprint
 
-A simple Streamlit app that answers questions about an uploaded document via OpenAI's GPT-3.5.
+A Streamlit app that answers questions about an uploaded document using OpenAI/Grok GPT
 
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://document-question-answering-template.streamlit.app/)
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://edocgpt.streamlit.app/)
 
 ### How to run it on your own machine
 
